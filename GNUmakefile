@@ -15,7 +15,7 @@ doc:
 lib: tcx.cma
 
 top: lib
-	utop -I _build/src
+	utop
 
 tcx.cma: tcx.ml tcx.cmi
 	$(OCAMLC) -a $< -o $@
