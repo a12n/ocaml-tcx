@@ -85,3 +85,21 @@ sig
       points : Track_point.t list;
     }
 end
+
+module Activity_lap :
+sig
+  type t = {
+      start_time : Timestamp.t;
+      total_time : float;     (* s *)
+      distance : float;       (* m *)
+      maximum_speed : float option; (* m/s *)
+      calories : int;               (* kcal *)
+      average_heart_rate : int option; (* bpm *)
+      maximum_heart_rate : int option; (* bpm *)
+      intensity : Intensity.t;
+      cadence : int option;   (* rpm *)
+      trigger_method : Trigger_method.t;
+      tracks : Track.t list;
+      notes : string option;
+    }
+end

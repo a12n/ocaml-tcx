@@ -86,20 +86,23 @@ module Track =
       }
   end
 
-type activity_lap = {
-    (* StartTime time.Time `xml:",attr"` *)
-    total_time : float;
-    distance : float;
-    maximum_speed : float option;
-    calories : int;
-    average_heart_rate : int option;
-    maximum_heart_rate : int option;
-    intensity : Intensity.t;
-    cadence : int option;
-    trigger_method : Trigger_method.t;
-    track : track list;
-    notes : string option;
-  }
+module Activity_lap =
+  struct
+    type t = {
+        start_time : Timestamp.t;
+        total_time : float;     (* s *)
+        distance : float;       (* m *)
+        maximum_speed : float option; (* m/s *)
+        calories : int;               (* kcal *)
+        average_heart_rate : int option; (* bpm *)
+        maximum_heart_rate : int option; (* bpm *)
+        intensity : Intensity.t;
+        cadence : int option;   (* rpm *)
+        trigger_method : Trigger_method.t;
+        tracks : Track.t list;
+        notes : string option;
+      }
+  end
 
 type version = {
     major : int;
@@ -154,7 +157,7 @@ type training = {
 type activity = {
     sport : Sport.t;
     (* id : time.Time; *)
-    lap : activity_lap list;
+    lap : Activity_lap.t list;
     notes : string option;
     training : training option;
     creator : abstract_source option;
