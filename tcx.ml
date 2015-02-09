@@ -34,8 +34,8 @@ module Position =
 
     let to_elem tag { latitude; longitude } =
       Xml.Element (tag, [],
-                   [to_elem string_of_float "LatitudeDegrees" latitude;
-                    to_elem string_of_float "LongitudeDegrees" longitude])
+                   [latitude |> to_elem string_of_float "LatitudeDegrees";
+                    longitude |> to_elem string_of_float "LongitudeDegrees"])
   end
 
 module Date =
@@ -200,16 +200,16 @@ module Activity_lap =
                       intensity; cadence; trigger_method; tracks; notes } =
       Xml.Element (tag,
                    ["StartTime", Timestamp.to_string start_time],
-                   (to_elem string_of_float "TotalTimeSeconds" total_time)
-                   @:> (to_elem string_of_float "DistanceMeters" distance)
+                   (total_time |> to_elem string_of_float "TotalTimeSeconds")
+                   @:> (distance |> to_elem string_of_float "DistanceMeters")
                    @:> (maximum_speed |?> to_elem string_of_float "MaximumSpeed")
-                   @?> (to_elem string_of_int "Calories" calories)
+                   @?> (calories |> to_elem string_of_int "Calories")
                    @:> (average_heart_rate |?> to_nested_elem string_of_int "AverageHeartRateBpm" "Value")
                    @?> (maximum_heart_rate |?> to_nested_elem string_of_int "MaximumHeartRateBpm" "Value")
-                   @?> (to_elem Intensity.to_string "Intensity" intensity)
+                   @?> (intensity |> to_elem Intensity.to_string "Intensity")
                    @:> (cadence |?> to_elem string_of_int "Cadence")
-                   @?> (to_elem Trigger_method.to_string "TriggerMethod" trigger_method)
-                   @:> (List.map (Track.to_elem "Track") tracks)
+                   @?> (trigger_method |> to_elem Trigger_method.to_string "TriggerMethod")
+                   @:> (tracks |> List.map (Track.to_elem "Track"))
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
                   )
@@ -227,8 +227,8 @@ module Activity =
     let to_elem { id; sport; laps; notes } =
       Xml.Element ("Activity",
                    ["Sport", Sport.to_string sport],
-                   (to_elem Timestamp.to_string "Id" id)
-                   @:> (List.map (Activity_lap.to_elem "Lap") laps)
+                   (id |> to_elem Timestamp.to_string "Id")
+                   @:> (laps |> List.map (Activity_lap.to_elem "Lap"))
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
                    )
