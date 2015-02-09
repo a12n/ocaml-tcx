@@ -1,3 +1,26 @@
+(** [a @@> b] concatenetes lists [a] and [b]. *)
+let (@@>) = (@)
+
+(** [x @:> b] prepends element [x] to the list [b]. *)
+let (@:>) hd tl = hd :: tl
+
+(** [o @?> b] prepends option [o] to the list [b], if it's some. *)
+let (@?>) opt tail =
+  match opt with None -> tail | Some x -> x :: tail
+
+(** [a |?> f] is equivalent to [BatOption.map f a]. *)
+let (|?>) opt f =
+  match opt with None -> None | Some x -> Some (f x)
+
+let to_pcdata to_string a =
+  Xml.PCData (to_string a)
+
+let to_elem to_string tag a =
+  Xml.Element (tag, [], [to_pcdata to_string a])
+
+let to_nested_elem to_string ptag tag a =
+  Xml.Element (ptag, [], [to_elem to_string tag a])
+
 module Position =
   struct
     type t = {
