@@ -2,6 +2,7 @@ OCAMLFIND ?= ocamlfind
 OCAMLC_FLAGS = -package xml-light -w +A-44
 OCAMLC = ${OCAMLFIND} ocamlc ${OCAMLC_FLAGS}
 OCAMLOPT = ${OCAMLFIND} ocamlopt ${OCAMLC_FLAGS}
+INSTALL_FILES = META tcx.a tcx.cma tcx.cmi tcx.cmxa
 
 .PHONY: all clean doc install lib top uninstall
 
@@ -12,8 +13,8 @@ clean:
 
 doc:
 
-install: META tcx.a tcx.cma tcx.cmi tcx.cmxa
-	${OCAMLFIND} install tcx $^
+install: ${INSTALL_FILES}
+	${OCAMLFIND} install tcx ${INSTALL_FILES}
 
 lib: tcx.cma tcx.cmxa
 
