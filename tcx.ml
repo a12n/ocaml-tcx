@@ -104,63 +104,11 @@ module Activity_lap =
       }
   end
 
-type version = {
-    major : int;
-    minor : int;
-    build_major : int option;
-    build_minor : int option;
-  }
-
-type device = {
-    name : string;
-    unit_id : int;
-    product_id : int;
-    version : version;
-  }
-
-type build = {
-    version : version;
-    build_type : Build_type.t;
-    time : string;
-    builder : string option;
-  }
-
-type lang_id = string
-
-type part_number = string
-
-type application = {
-    name : string;
-    build : build;
-    lang_id : lang_id;
-    part_number : part_number;
-  }
-
-type abstract_source = Device of device
-                     | Application of application
-
-type quick_workout = {
-    total_time : float;
-    distance : float;
-  }
-
-type plan = {
-    name : string;
-  }
-
-type training = {
-    virtual_partner : bool;
-    quick_workout_results : quick_workout option;
-    plan : plan option;
-  }
-
 type activity = {
     sport : Sport.t;
     (* id : time.Time; *)
     lap : Activity_lap.t list;
     notes : string option;
-    training : training option;
-    creator : abstract_source option;
   }
 
 type t = {
