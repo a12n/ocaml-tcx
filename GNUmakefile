@@ -15,7 +15,7 @@ doc:
 lib: tcx.cma tcx.cmxa
 
 top: lib
-	utop
+	utop -require xml-light
 
 tcx.cma: tcx.ml tcx.cmi
 	$(OCAMLC) -a $< -o $@
