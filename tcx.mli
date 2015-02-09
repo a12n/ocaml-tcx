@@ -40,3 +40,28 @@ sig
       time_zone : Time_zone.t;
     }
 end
+
+module Sensor_state :
+sig
+  type t = Present | Absent
+end
+
+module Intensity :
+sig
+  type t = Active | Resting
+end
+
+module Trigger_method :
+sig
+  type t = Manual | Distance | Location | Time | Heart_rate
+end
+
+module Sport :
+sig
+  type t = Running | Biking | Other
+end
+
+module Build_type :
+sig
+  type t = Internal | Alpha | Beta | Release
+end

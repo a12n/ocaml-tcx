@@ -41,7 +41,30 @@ module Timestamp =
       }
   end
 
-type sensor_state = Present | Absent
+module Sensor_state =
+  struct
+    type t = Present | Absent
+  end
+
+module Intensity =
+  struct
+    type t = Active | Resting
+  end
+
+module Trigger_method =
+  struct
+    type t = Manual | Distance | Location | Time | Heart_rate
+  end
+
+module Sport =
+  struct
+    type t = Running | Biking | Other
+  end
+
+module Build_type =
+  struct
+    type t = Internal | Alpha | Beta | Release
+  end
 
 type trackpoint = {
     (* Time time.Time *)
@@ -50,16 +73,12 @@ type trackpoint = {
     distance : float option;
     heart_rate : int option;
     cadence : int option;
-    sensor_state : sensor_state;
+    sensor_state : Sensor_state.t;
   }
 
 type track = {
     trackpoint : trackpoint list;
   }
-
-type intensity = Active | Resting
-
-type trigger_method = Manual | Distance | Location | Time | Heart_rate
 
 type activity_lap = {
     (* StartTime time.Time `xml:",attr"` *)
@@ -69,14 +88,12 @@ type activity_lap = {
     calories : int;
     average_heart_rate : int option;
     maximum_heart_rate : int option;
-    intensity : intensity;
+    intensity : Intensity.t;
     cadence : int option;
-    trigger_method : trigger_method;
+    trigger_method : Trigger_method.t;
     track : track list;
     notes : string option;
   }
-
-type sport = Running | Biking | Other
 
 type version = {
     major : int;
@@ -92,11 +109,9 @@ type device = {
     version : version;
   }
 
-type build_type = Internal | Alpha | Beta | Release
-
 type build = {
     version : version;
-    build_type : build_type;
+    build_type : Build_type.t;
     time : string;
     builder : string option;
   }
@@ -131,7 +146,7 @@ type training = {
   }
 
 type activity = {
-    sport : sport;
+    sport : Sport.t;
     (* id : time.Time; *)
     lap : activity_lap list;
     notes : string option;
