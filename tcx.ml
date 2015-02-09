@@ -252,4 +252,6 @@ let to_xml { activities } =
 
 let of_string str = Xml.parse_string str |> of_xml
 
-let to_string tcx = to_xml tcx |> Xml.to_string_fmt
+let to_string tcx =
+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" ^
+    (to_xml tcx |> Xml.to_string_fmt)
