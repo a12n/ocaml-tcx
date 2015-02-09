@@ -183,6 +183,25 @@ module Activity_lap =
         tracks : Track.t list;
         notes : string option;
       }
+
+    let to_elem tag { start_time; total_time; distance; maximum_speed;
+                      calories; average_heart_rate; maximum_heart_rate;
+                      intensity; cadence; trigger_method; tracks; notes } =
+      Xml.Element (tag,
+                   ["StartTime", Timestamp.to_string start_time],
+                   (to_elem string_of_float "TotalTimeSeconds" total_time)
+                   @:> (to_elem string_of_float "DistanceMeters" distance)
+                   @:> (maximum_speed |?> to_elem string_of_float "MaximumSpeed")
+                   @?> (to_elem string_of_int "Calories" calories)
+                   @:> (average_heart_rate |?> to_nested_elem string_of_int "AverageHeartRateBpm" "Value")
+                   @?> (maximum_heart_rate |?> to_nested_elem string_of_int "MaximumHeartRateBpm" "Value")
+                   @?> (to_elem Intensity.to_string "Intensity" intensity)
+                   @:> (cadence |?> to_elem string_of_int "Cadence")
+                   @?> (to_elem Trigger_method.to_string "TriggerMethod" trigger_method)
+                   @:> (List.map (Track.to_elem "Track") tracks)
+                   @@> (notes |?> to_elem (fun s -> s) "Notes")
+                   @?> []
+                  )
   end
 
 module Activity =
