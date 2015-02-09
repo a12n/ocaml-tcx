@@ -14,6 +14,9 @@ module Date =
         day : int;
       }
 
+    let of_tm { Unix.tm_year; tm_mon; tm_mday; _ } =
+      { year = tm_year + 1900; month = tm_mon + 1; day = tm_mday }
+
     let to_string { year; month; day } =
       Printf.sprintf "%04d-%02d-%02d" year month day
   end
@@ -25,6 +28,9 @@ module Time =
         minute : int;
         second : int;
       }
+
+    let of_tm { Unix.tm_hour; tm_min; tm_sec; _ } =
+      { hour = tm_hour; minute = tm_min; second = tm_sec }
 
     let to_string { hour; minute; second } =
       Printf.sprintf "%02d:%02d:%02d" hour minute second
@@ -53,9 +59,15 @@ module Timestamp =
         time_zone : Time_zone.t;
       }
 
+    let of_tm time_zone tm =
+      { date = Date.of_tm tm; time = Time.of_tm tm; time_zone }
+
     let to_string { date; time; time_zone } =
       (Date.to_string date) ^ "T" ^ (Time.to_string time) ^
         (Time_zone.to_string time_zone)
+
+    let now () =
+      of_tm Time_zone.utc (Unix.gmtime (Unix.time ()))
   end
 
 module Sensor_state =

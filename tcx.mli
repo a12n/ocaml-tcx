@@ -41,6 +41,8 @@ sig
       time : Time.t;
       time_zone : Time_zone.t;
     }
+
+  val now : unit -> t
 end
 
 module Sensor_state :
