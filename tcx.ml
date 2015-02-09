@@ -212,6 +212,15 @@ module Activity =
         laps : Activity_lap.t list;
         notes : string option;
       }
+
+    let to_elem { id; sport; laps; notes } =
+      Xml.Element ("Activity",
+                   ["Sport", Sport.to_string sport],
+                   (to_elem Timestamp.to_string "Id" id)
+                   @:> (List.map (Activity_lap.to_elem "Lap") laps)
+                   @@> (notes |?> to_elem (fun s -> s) "Notes")
+                   @?> []
+                   )
   end
 
 type t = {
