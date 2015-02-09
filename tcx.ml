@@ -41,6 +41,8 @@ module Time_zone =
       | { hours = 0; minutes = 0 } -> "Z"
       | { hours; minutes = 0 } -> Printf.sprintf "%+02d" hours
       | { hours; minutes } -> Printf.sprintf "%+02d:%02d" hours minutes
+
+    let utc = { hours = 0; minutes = 0 }
   end
 
 module Timestamp =

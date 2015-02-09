@@ -30,6 +30,8 @@ sig
       hours : int;            (* [-12, 14] *)
       minutes : int;          (* [0, 59] *)
     }
+
+  val utc : t
 end
 
 module Timestamp :
