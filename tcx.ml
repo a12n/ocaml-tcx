@@ -59,21 +59,41 @@ module Timestamp =
 module Sensor_state =
   struct
     type t = Present | Absent
+
+    let to_string = function
+        Present -> "Present"
+      | Absent -> "Absent"
   end
 
 module Intensity =
   struct
     type t = Active | Resting
+
+    let to_string = function
+        Active -> "Active"
+      | Resting -> "Resting"
   end
 
 module Trigger_method =
   struct
     type t = Manual | Distance | Location | Time | Heart_rate
+
+    let to_string = function
+        Manual -> "Manual"
+      | Distance -> "Distance"
+      | Location -> "Location"
+      | Time -> "Time"
+      | Heart_rate -> "HeartRate"
   end
 
 module Sport =
   struct
     type t = Running | Biking | Other
+
+    let to_string = function
+        Running -> "Running"
+      | Biking -> "Biking"
+      | Other -> "Other"
   end
 
 module Track_point =
