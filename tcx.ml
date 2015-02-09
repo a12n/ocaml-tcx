@@ -79,9 +79,12 @@ module Track_point =
       }
   end
 
-type track = {
-    trackpoint : Track_point.t list;
-  }
+module Track =
+  struct
+    type t = {
+        points : Track_point.t list;
+      }
+  end
 
 type activity_lap = {
     (* StartTime time.Time `xml:",attr"` *)

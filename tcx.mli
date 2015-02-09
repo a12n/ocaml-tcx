@@ -78,3 +78,10 @@ sig
       sensor_state : Sensor_state.t;
     }
 end
+
+module Track :
+sig
+  type t = {
+      points : Track_point.t list;
+    }
+end
