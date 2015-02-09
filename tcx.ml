@@ -2,7 +2,7 @@
 let (@@>) = (@)
 
 (** [x @:> b] prepends element [x] to the list [b]. *)
-let (@:>) hd tl = hd :: tl
+let (@>) a l = a :: l
 
 (** [o @?> b] prepends option [o] to the list [b], if it's some. *)
 let (@?>) opt tail =
@@ -158,13 +158,13 @@ module Track_point =
                       heart_rate; cadence; sensor_state } =
       Xml.Element (tag, [],
                    (time |> to_elem Timestamp.to_string "Time")
-                   @:> (position |?> Position.to_elem "Position")
+                   @> (position |?> Position.to_elem "Position")
                    @?> (altitude |?> to_elem string_of_float "AltitudeMeters")
                    @?> (distance |?> to_elem string_of_float "DistanceMeters")
                    @?> (heart_rate |?> to_nested_elem string_of_int "HeartRateBpm" "Value")
                    @?> (cadence |?> to_elem string_of_int "Cadence")
                    @?> (sensor_state |> to_elem Sensor_state.to_string "SensorState")
-                   @:> []
+                   @> []
                   )
   end
 
@@ -201,15 +201,15 @@ module Activity_lap =
       Xml.Element (tag,
                    ["StartTime", Timestamp.to_string start_time],
                    (total_time |> to_elem string_of_float "TotalTimeSeconds")
-                   @:> (distance |> to_elem string_of_float "DistanceMeters")
-                   @:> (maximum_speed |?> to_elem string_of_float "MaximumSpeed")
+                   @> (distance |> to_elem string_of_float "DistanceMeters")
+                   @> (maximum_speed |?> to_elem string_of_float "MaximumSpeed")
                    @?> (calories |> to_elem string_of_int "Calories")
-                   @:> (average_heart_rate |?> to_nested_elem string_of_int "AverageHeartRateBpm" "Value")
+                   @> (average_heart_rate |?> to_nested_elem string_of_int "AverageHeartRateBpm" "Value")
                    @?> (maximum_heart_rate |?> to_nested_elem string_of_int "MaximumHeartRateBpm" "Value")
                    @?> (intensity |> to_elem Intensity.to_string "Intensity")
-                   @:> (cadence |?> to_elem string_of_int "Cadence")
+                   @> (cadence |?> to_elem string_of_int "Cadence")
                    @?> (trigger_method |> to_elem Trigger_method.to_string "TriggerMethod")
-                   @:> (tracks |> List.map (Track.to_elem "Track"))
+                   @> (tracks |> List.map (Track.to_elem "Track"))
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
                   )
@@ -228,7 +228,7 @@ module Activity =
       Xml.Element (tag,
                    ["Sport", Sport.to_string sport],
                    (id |> to_elem Timestamp.to_string "Id")
-                   @:> (laps |> List.map (Activity_lap.to_elem "Lap"))
+                   @> (laps |> List.map (Activity_lap.to_elem "Lap"))
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
                   )
