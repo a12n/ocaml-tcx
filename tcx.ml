@@ -104,14 +104,17 @@ module Activity_lap =
       }
   end
 
-type activity = {
-    sport : Sport.t;
-    (* id : time.Time; *)
-    lap : Activity_lap.t list;
-    notes : string option;
-  }
+module Activity =
+  struct
+    type t = {
+        sport : Sport.t;
+        id : Timestamp.t;
+        laps : Activity_lap.t list;
+        notes : string option;
+      }
+  end
 
 type t = {
     (* TODO: Folders, workouts, etc. *)
-    activities : activity list;
+    activities : Activity.t list;
   }

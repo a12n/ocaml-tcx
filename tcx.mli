@@ -103,3 +103,13 @@ sig
       notes : string option;
     }
 end
+
+module Activity :
+sig
+  type t = {
+      id : Timestamp.t;
+      sport : Sport.t;
+      laps : Activity_lap.t list;
+      notes : string option;
+    }
+end
