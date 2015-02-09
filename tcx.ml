@@ -1,16 +1,16 @@
 (** [a @@> b] concatenetes lists [a] and [b]. *)
 let (@@>) = (@)
 
-(** [x @:> b] prepends element [x] to the list [b]. *)
+(** [a @> l] prepends element [a] to the list [l]. *)
 let (@>) a l = a :: l
 
-(** [o @?> b] prepends option [o] to the list [b], if it's some. *)
-let (@?>) opt tail =
-  match opt with None -> tail | Some x -> x :: tail
+(** [opt @?> l] prepends option [opt] to the list [l], if it's some. *)
+let (@?>) opt l =
+  match opt with None -> l | Some a -> a :: l
 
 (** [a |?> f] is equivalent to [BatOption.map f a]. *)
 let (|?>) opt f =
-  match opt with None -> None | Some x -> Some (f x)
+  match opt with None -> None | Some a -> Some (f a)
 
 let identity a = a
 
