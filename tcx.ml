@@ -238,13 +238,12 @@ type t = {
     activities : Activity.t list;
   }
 
-let xmlns = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"
-
 let of_xml xml =
   (* TODO *)
   { activities = [] }
 
 let to_xml { activities } =
+  let xmlns = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" in
   Xml.Element ("TrainingCenterDatabase",
                ["xmlns", xmlns],
                [Xml.Element ("Activities",
