@@ -27,6 +27,11 @@ module Position =
         latitude : float;
         longitude : float;
       }
+
+    let to_elem tag { latitude; longitude } =
+      Xml.Element (tag, [],
+                   [to_elem string_of_float "LatitudeDegrees" latitude;
+                    to_elem string_of_float "LongitudeDegrees" longitude])
   end
 
 module Date =
