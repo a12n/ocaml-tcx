@@ -224,14 +224,14 @@ module Activity =
         notes : string option;
       }
 
-    let to_elem { id; sport; laps; notes } =
-      Xml.Element ("Activity",
+    let to_elem tag { id; sport; laps; notes } =
+      Xml.Element (tag,
                    ["Sport", Sport.to_string sport],
                    (id |> to_elem Timestamp.to_string "Id")
                    @:> (laps |> List.map (Activity_lap.to_elem "Lap"))
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
-                   )
+                  )
   end
 
 type t = {
@@ -250,7 +250,7 @@ let to_xml { activities } =
                ["xmlns", xmlns],
                [Xml.Element ("Activities",
                              [],
-                             List.map Activity.to_elem activities)])
+                             activities |> List.map (Activity.to_elem "Activity"))])
 
 let of_string str = Xml.parse_string str |> of_xml
 
