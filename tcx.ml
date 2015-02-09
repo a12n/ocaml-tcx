@@ -61,11 +61,6 @@ module Sport =
     type t = Running | Biking | Other
   end
 
-module Build_type =
-  struct
-    type t = Internal | Alpha | Beta | Release
-  end
-
 module Track_point =
   struct
     type t = {

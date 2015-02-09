@@ -61,11 +61,6 @@ sig
   type t = Running | Biking | Other
 end
 
-module Build_type :
-sig
-  type t = Internal | Alpha | Beta | Release
-end
-
 module Track_point :
 sig
   type t = {
