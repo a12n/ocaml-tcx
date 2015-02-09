@@ -113,3 +113,7 @@ sig
       notes : string option;
     }
 end
+
+type t = {
+    activities : Activity.t list;
+  }
