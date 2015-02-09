@@ -1,5 +1,5 @@
 OCAMLFIND ?= ocamlfind
-OCAMLC_FLAGS = -package xml-light
+OCAMLC_FLAGS = -package xml-light -w +A-44
 OCAMLC = $(OCAMLFIND) ocamlc $(OCAMLC_FLAGS)
 OCAMLOPT = $(OCAMLFIND) ocamlopt $(OCAMLC_FLAGS)
 
