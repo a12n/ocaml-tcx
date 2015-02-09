@@ -6,6 +6,41 @@ module Position =
       }
   end
 
+module Date =
+  struct
+    type t = {
+        year : int;
+        month : int;
+        day : int;
+      }
+  end
+
+module Time =
+  struct
+    type t = {
+        hour : int;
+        minute : int;
+        second : int;
+      }
+  end
+
+module Time_zone =
+  struct
+    type t = {
+        hours : int;            (* [-12, 14] *)
+        minutes : int;          (* [0, 59] *)
+      }
+  end
+
+module Timestamp =
+  struct
+    type t = {
+        date : Date.t;
+        time : Time.t;
+        time_zone : Time_zone.t;
+      }
+  end
+
 type sensor_state = Present | Absent
 
 type trackpoint = {
