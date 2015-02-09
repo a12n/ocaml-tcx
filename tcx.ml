@@ -12,6 +12,8 @@ let (@?>) opt tail =
 let (|?>) opt f =
   match opt with None -> None | Some x -> Some (f x)
 
+let identity a = a
+
 let to_pcdata to_string a =
   Xml.PCData (to_string a)
 
@@ -199,7 +201,7 @@ module Activity_lap =
                    @:> (cadence |?> to_elem string_of_int "Cadence")
                    @?> (to_elem Trigger_method.to_string "TriggerMethod" trigger_method)
                    @:> (List.map (Track.to_elem "Track") tracks)
-                   @@> (notes |?> to_elem (fun s -> s) "Notes")
+                   @@> (notes |?> to_elem identity "Notes")
                    @?> []
                   )
   end
@@ -218,7 +220,7 @@ module Activity =
                    ["Sport", Sport.to_string sport],
                    (to_elem Timestamp.to_string "Id" id)
                    @:> (List.map (Activity_lap.to_elem "Lap") laps)
-                   @@> (notes |?> to_elem (fun s -> s) "Notes")
+                   @@> (notes |?> to_elem identity "Notes")
                    @?> []
                    )
   end
