@@ -13,6 +13,9 @@ module Date =
         month : int;
         day : int;
       }
+
+    let to_string { year; month; day } =
+      Printf.sprintf "%04d-%02d-%02d" year month day
   end
 
 module Time =
@@ -22,6 +25,9 @@ module Time =
         minute : int;
         second : int;
       }
+
+    let to_string { hour; minute; second } =
+      Printf.sprintf "%02d:%02d:%02d" hour minute second
   end
 
 module Time_zone =
@@ -30,6 +36,11 @@ module Time_zone =
         hours : int;            (* [-12, 14] *)
         minutes : int;          (* [0, 59] *)
       }
+
+    let to_string = function
+      | { hours = 0; minutes = 0 } -> "Z"
+      | { hours; minutes = 0 } -> Printf.sprintf "%+02d" hours
+      | { hours; minutes } -> Printf.sprintf "%+02d:%02d" hours minutes
   end
 
 module Timestamp =
@@ -39,6 +50,10 @@ module Timestamp =
         time : Time.t;
         time_zone : Time_zone.t;
       }
+
+    let to_string { date; time; time_zone } =
+      (Date.to_string date) ^ "T" ^ (Time.to_string time) ^
+        (Time_zone.to_string time_zone)
   end
 
 module Sensor_state =
