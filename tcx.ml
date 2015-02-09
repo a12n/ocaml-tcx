@@ -1,13 +1,16 @@
-type position = {
-    latitude : float;       (* [-90, 90] *)
-    longitude : float;      (* [-180, 180] *)
-  }
+module Position =
+  struct
+    type t = {
+        latitude : float;
+        longitude : float;
+      }
+  end
 
 type sensor_state = Present | Absent
 
 type trackpoint = {
     (* Time time.Time *)
-    position : position option;
+    position : Position.t option;
     altitude : float option;
     distance : float option;
     heart_rate : int option;
