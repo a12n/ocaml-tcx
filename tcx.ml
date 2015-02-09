@@ -154,10 +154,17 @@ module Track_point =
         sensor_state : Sensor_state.t;
       }
 
-    let to_elem tag { time; _ } =
+    let to_elem tag { time; position; altitude; distance;
+                      heart_rate; cadence; sensor_state } =
       Xml.Element (tag, [],
-                   (* TODO *)
-                   []
+                   (time |> to_elem Timestamp.to_string "Time")
+                   @:> (position |?> Position.to_elem "Position")
+                   @?> (altitude |?> to_elem string_of_float "AltitudeMeters")
+                   @?> (distance |?> to_elem string_of_float "DistanceMeters")
+                   @?> (heart_rate |?> to_nested_elem string_of_int "HeartRateBpm" "Value")
+                   @?> (cadence |?> to_elem string_of_int "Cadence")
+                   @?> (sensor_state |> to_elem Sensor_state.to_string "SensorState")
+                   @:> []
                   )
   end
 
