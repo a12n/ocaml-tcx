@@ -149,6 +149,12 @@ module Track_point =
         cadence : int option;
         sensor_state : Sensor_state.t;
       }
+
+    let to_elem tag { time; _ } =
+      Xml.Element (tag, [],
+                   (* TODO *)
+                   []
+                  )
   end
 
 module Track =
