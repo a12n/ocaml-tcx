@@ -27,10 +27,10 @@ uninstall:
 tcx.a: tcx.cmxa
 
 tcx.cma: tcx.ml tcx.cmi
-	${OCAMLC} -a $< -o $@
+	${OCAMLC} -a tcx.ml -o $@
 
 tcx.cmxa: tcx.ml tcx.cmi
-	${OCAMLOPT} -a $< -o $@
+	${OCAMLOPT} -a tcx.ml -o $@
 
 tcx.cmi: tcx.mli
-	${OCAMLC} -c $< -o $@
+	${OCAMLC} -c tcx.mli -o $@
