@@ -118,3 +118,13 @@ type t = {
     (* TODO: Folders, workouts, etc. *)
     activities : Activity.t list;
   }
+
+let xmlns = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"
+
+let of_string string =
+  (* TODO *)
+  { activities = [] }
+
+let to_string tcx =
+  (* TODO *)
+  ""
