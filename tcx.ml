@@ -161,6 +161,6 @@ let to_xml tcx =
                ["xmlns", xmlns],
                [])
 
-let of_string string = Xml.parse_string string |> of_xml
+let of_string str = Xml.parse_string str |> of_xml
 
 let to_string tcx = to_xml tcx |> Xml.to_string_fmt
