@@ -234,11 +234,12 @@ let of_xml xml =
   (* TODO *)
   { activities = [] }
 
-let to_xml tcx =
-  (* TODO *)
+let to_xml { activities } =
   Xml.Element ("TrainingCenterDatabase",
                ["xmlns", xmlns],
-               [])
+               [Xml.Element ("Activities",
+                             [],
+                             List.map Activity.to_elem activities)])
 
 let of_string str = Xml.parse_string str |> of_xml
 
