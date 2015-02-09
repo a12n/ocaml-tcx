@@ -162,6 +162,9 @@ module Track =
     type t = {
         points : Track_point.t list;
       }
+
+    let to_elem tag { points } =
+      Xml.Element (tag, [], List.map (Track_point.to_elem "Trackpoint") points)
   end
 
 module Activity_lap =
