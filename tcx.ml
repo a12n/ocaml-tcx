@@ -107,8 +107,8 @@ module Activity_lap =
 module Activity =
   struct
     type t = {
-        sport : Sport.t;
         id : Timestamp.t;
+        sport : Sport.t;
         laps : Activity_lap.t list;
         notes : string option;
       }
