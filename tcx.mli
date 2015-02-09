@@ -65,3 +65,16 @@ module Build_type :
 sig
   type t = Internal | Alpha | Beta | Release
 end
+
+module Track_point :
+sig
+  type t = {
+      time : Timestamp.t;
+      position : Position.t option;
+      altitude : float option; (* m *)
+      distance : float option; (* m *)
+      heart_rate : int option; (* bpm *)
+      cadence : int option;    (* rpm *)
+      sensor_state : Sensor_state.t;
+    }
+end

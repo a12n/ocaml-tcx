@@ -66,18 +66,21 @@ module Build_type =
     type t = Internal | Alpha | Beta | Release
   end
 
-type trackpoint = {
-    (* Time time.Time *)
-    position : Position.t option;
-    altitude : float option;
-    distance : float option;
-    heart_rate : int option;
-    cadence : int option;
-    sensor_state : Sensor_state.t;
-  }
+module Track_point =
+  struct
+    type t = {
+        time : Timestamp.t;
+        position : Position.t option;
+        altitude : float option;
+        distance : float option;
+        heart_rate : int option;
+        cadence : int option;
+        sensor_state : Sensor_state.t;
+      }
+  end
 
 type track = {
-    trackpoint : trackpoint list;
+    trackpoint : Track_point.t list;
   }
 
 type activity_lap = {
