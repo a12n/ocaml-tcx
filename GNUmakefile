@@ -8,7 +8,7 @@ OCAMLOPT = ${OCAMLFIND} ocamlopt ${OCAMLC_FLAGS}
 all: lib
 
 clean:
-	${RM} tcx.a tcx.cma tcx.cmi tcx.cmo tcx.cmx tcx.cmxa tcx.o
+	rm -f tcx.a tcx.cma tcx.cmi tcx.cmo tcx.cmx tcx.cmxa tcx.o
 
 doc:
 
