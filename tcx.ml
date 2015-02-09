@@ -121,10 +121,16 @@ type t = {
 
 let xmlns = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"
 
-let of_string string =
+let of_xml xml =
   (* TODO *)
   { activities = [] }
 
-let to_string tcx =
+let to_xml tcx =
   (* TODO *)
-  ""
+  Xml.Element ("TrainingCenterDatabase",
+               ["xmlns", xmlns],
+               [])
+
+let of_string string = Xml.parse_string string |> of_xml
+
+let to_string tcx = to_xml tcx |> Xml.to_string_fmt
