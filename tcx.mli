@@ -74,7 +74,7 @@ sig
       distance : float option; (* m *)
       heart_rate : int option; (* bpm *)
       cadence : int option;    (* rpm *)
-      sensor_state : Sensor_state.t;
+      sensor_state : Sensor_state.t option;
     }
 end
 

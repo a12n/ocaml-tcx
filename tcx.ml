@@ -150,7 +150,7 @@ module Track_point =
         distance : float option;
         heart_rate : int option;
         cadence : int option;
-        sensor_state : Sensor_state.t;
+        sensor_state : Sensor_state.t option;
       }
 
     let to_elem tag { time; position; altitude; distance;
@@ -162,8 +162,8 @@ module Track_point =
                    @?> (distance |?> to_elem string_of_float "DistanceMeters")
                    @?> (heart_rate |?> to_nested_elem string_of_int "HeartRateBpm" "Value")
                    @?> (cadence |?> to_elem string_of_int "Cadence")
-                   @?> (sensor_state |> to_elem Sensor_state.to_string "SensorState")
-                   @> []
+                   @?> (sensor_state |?> to_elem Sensor_state.to_string "SensorState")
+                   @?> []
                   )
   end
 
