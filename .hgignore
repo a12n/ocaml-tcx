@@ -1,6 +1,6 @@
+.*\.cmi
+.*\.cmo
+.*\.cmx
+.*\.o
 tcx\.a
-tcx\.cmi
-tcx\.cmo
-tcx\.cmx
 tcx\.cmx?a
-tcx\.o
