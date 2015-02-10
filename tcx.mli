@@ -81,7 +81,7 @@ end
 module Track :
 sig
   type t = {
-      points : Track_point.t list;
+      points : Track_point.t List_ext.Non_empty.t;
     }
 end
 

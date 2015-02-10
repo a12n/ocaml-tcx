@@ -170,11 +170,12 @@ module Track_point =
 module Track =
   struct
     type t = {
-        points : Track_point.t list;
+        points : Track_point.t List_ext.Non_empty.t;
       }
 
     let to_elem tag { points } =
-      Xml.Element (tag, [], List.map (Track_point.to_elem "Trackpoint") points)
+      Xml.Element (tag, [],
+                   points |> List_ext.Non_empty.to_list |> List.map (Track_point.to_elem "Trackpoint"))
   end
 
 module Activity_lap =
