@@ -51,6 +51,8 @@ module Date =
 
     let to_string { year; month; day } =
       Printf.sprintf "%04d-%02d-%02d" year month day
+
+    let default = { year = 1970; month = 1; day = 1 }
   end
 
 module Time =
@@ -66,6 +68,8 @@ module Time =
 
     let to_string { hour; minute; second } =
       Printf.sprintf "%02d:%02d:%02d" hour minute second
+
+    let default = { hour = 0; minute = 0; second = 0 }
   end
 
 module Time_zone =
@@ -96,6 +100,9 @@ module Timestamp =
     let to_string { date; time; time_zone } =
       (Date.to_string date) ^ "T" ^ (Time.to_string time) ^
         (Time_zone.to_string time_zone)
+
+    let default =
+      { date = Date.default; time = Time.default; time_zone = Time_zone.utc }
 
     let now () =
       of_tm Time_zone.utc (Unix.gmtime (Unix.time ()))
@@ -165,6 +172,15 @@ module Track_point =
                    @?> (sensor_state |?> to_elem Sensor_state.to_string "SensorState")
                    @?> []
                   )
+
+    let default =
+      { time = Timestamp.default;
+        position = None;
+        altitude = None;
+        distance = None;
+        heart_rate = None;
+        cadence = None;
+        sensor_state = None }
   end
 
 module Track =
@@ -213,6 +229,20 @@ module Activity_lap =
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
                   )
+
+    let default =
+      { start_time = Timestamp.default;
+        total_time = 0.0;
+        distance = 0.0;
+        maximum_speed = None;
+        calories = 0;
+        average_heart_rate = None;
+        maximum_heart_rate = None;
+        intensity = Intensity.Active;
+        cadence = None;
+        trigger_method = Trigger_method.Manual;
+        tracks = [];
+        notes = None }
   end
 
 module Activity =
@@ -232,6 +262,12 @@ module Activity =
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
                   )
+
+    let default =
+      { id = Timestamp.default;
+        sport = Sport.Other;
+        laps = Activity_lap.default, [];
+        notes = None }
   end
 
 type t = {

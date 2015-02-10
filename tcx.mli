@@ -42,6 +42,8 @@ sig
       time_zone : Time_zone.t;
     }
 
+  val default : t
+
   val now : unit -> t
 end
 
@@ -76,6 +78,8 @@ sig
       cadence : int option;    (* rpm *)
       sensor_state : Sensor_state.t option;
     }
+
+  val default : t
 end
 
 module Track :
@@ -101,6 +105,8 @@ sig
       tracks : Track.t list;
       notes : string option;
     }
+
+  val default : t
 end
 
 module Activity :
@@ -111,6 +117,8 @@ sig
       laps : Activity_lap.t List_ext.Non_empty.t;
       notes : string option;
     }
+
+  val default : t
 end
 
 type t = {
