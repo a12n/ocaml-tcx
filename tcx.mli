@@ -108,7 +108,7 @@ sig
   type t = {
       id : Timestamp.t;
       sport : Sport.t;
-      laps : Activity_lap.t list;
+      laps : Activity_lap.t List_ext.Non_empty.t;
       notes : string option;
     }
 end

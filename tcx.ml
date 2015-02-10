@@ -219,7 +219,7 @@ module Activity =
     type t = {
         id : Timestamp.t;
         sport : Sport.t;
-        laps : Activity_lap.t list;
+        laps : Activity_lap.t List_ext.Non_empty.t;
         notes : string option;
       }
 
@@ -227,7 +227,7 @@ module Activity =
       Xml.Element (tag,
                    ["Sport", Sport.to_string sport],
                    (id |> to_elem Timestamp.to_string "Id")
-                   @> (laps |> List.map (Activity_lap.to_elem "Lap"))
+                   @> (laps |> List_ext.Non_empty.to_list |> List.map (Activity_lap.to_elem "Lap"))
                    @@> (notes |?> to_elem identity "Notes")
                    @?> []
                   )
