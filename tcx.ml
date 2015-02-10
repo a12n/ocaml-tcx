@@ -275,7 +275,7 @@ type t = {
     activities : Activity.t list;
   }
 
-let of_xml xml =
+let of_xml _xml =
   (* TODO *)
   { activities = [] }
 
