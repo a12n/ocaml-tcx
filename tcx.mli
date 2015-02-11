@@ -42,7 +42,7 @@ sig
       time_zone : Time_zone.t;
     }
 
-  val default : t
+  val epoch : t
 
   val now : unit -> t
 end

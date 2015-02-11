@@ -130,7 +130,7 @@ module Timestamp =
       (Date.to_string date) ^ "T" ^ (Time.to_string time) ^
         (Time_zone.to_string time_zone)
 
-    let default =
+    let epoch =
       { date = Date.epoch; time = Time.midnight; time_zone = Time_zone.utc }
 
     let now () =
@@ -138,7 +138,7 @@ module Timestamp =
 
     let of_string _str =
       (* TODO *)
-      default
+      epoch
   end
 
 module Sensor_state =
@@ -239,7 +239,7 @@ module Track_point =
                   )
 
     let default =
-      { time = Timestamp.default;
+      { time = Timestamp.epoch;
         position = None;
         altitude = None;
         distance = None;
@@ -314,7 +314,7 @@ module Activity_lap =
                   )
 
     let default =
-      { start_time = Timestamp.default;
+      { start_time = Timestamp.epoch;
         total_time = 0.0;
         distance = 0.0;
         maximum_speed = None;
@@ -353,7 +353,7 @@ module Activity =
                   )
 
     let default =
-      { id = Timestamp.default;
+      { id = Timestamp.epoch;
         sport = Sport.Other;
         laps = Activity_lap.default, [];
         notes = None }
