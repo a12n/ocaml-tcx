@@ -79,7 +79,7 @@ sig
       sensor_state : Sensor_state.t option;
     }
 
-  val default : t
+  val sample : t
 end
 
 module Track :
@@ -106,7 +106,7 @@ sig
       notes : string option;
     }
 
-  val default : t
+  val sample : t
 end
 
 module Activity :
@@ -118,7 +118,7 @@ sig
       notes : string option;
     }
 
-  val default : t
+  val sample : t
 end
 
 type t = {
