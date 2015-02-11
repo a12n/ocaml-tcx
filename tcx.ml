@@ -112,6 +112,11 @@ module Sensor_state =
   struct
     type t = Present | Absent
 
+    let of_string = function
+        "Present" -> Present
+      | "Absent" -> Absent
+      | _ -> raise (Invalid_argument "Tcx.Sensor_state.of_string")
+
     let to_string = function
         Present -> "Present"
       | Absent -> "Absent"
@@ -121,6 +126,11 @@ module Intensity =
   struct
     type t = Active | Resting
 
+    let of_string = function
+        "Active" -> Active
+      | "Resting" -> Resting
+      | _ -> raise (Invalid_argument "Tcx.Intensity.of_string")
+
     let to_string = function
         Active -> "Active"
       | Resting -> "Resting"
@@ -129,6 +139,14 @@ module Intensity =
 module Trigger_method =
   struct
     type t = Manual | Distance | Location | Time | Heart_rate
+
+    let of_string = function
+        "Manual" -> Manual
+      | "Distance" -> Distance
+      | "Location" -> Location
+      | "Time" -> Time
+      | "HeartRate" -> Heart_rate
+      | _ -> raise (Invalid_argument "Tcx.Trigger_method.of_string")
 
     let to_string = function
         Manual -> "Manual"
@@ -141,6 +159,11 @@ module Trigger_method =
 module Sport =
   struct
     type t = Running | Biking | Other
+
+    let of_string = function
+        "Running" -> Running
+      | "Biking" -> Biking
+      | _ -> Other
 
     let to_string = function
         Running -> "Running"
