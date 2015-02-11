@@ -81,7 +81,7 @@ module Date =
     let to_string { year; month; day } =
       Printf.sprintf "%04d-%02d-%02d" year month day
 
-    let default = { year = 1970; month = 1; day = 1 }
+    let epoch = { year = 1970; month = 1; day = 1 }
   end
 
 module Time =
@@ -131,7 +131,7 @@ module Timestamp =
         (Time_zone.to_string time_zone)
 
     let default =
-      { date = Date.default; time = Time.default; time_zone = Time_zone.utc }
+      { date = Date.epoch; time = Time.default; time_zone = Time_zone.utc }
 
     let now () =
       of_tm Time_zone.utc (Unix.gmtime (Unix.time ()))
