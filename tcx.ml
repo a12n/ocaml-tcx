@@ -79,6 +79,11 @@ module Date =
         day : int;
       }
 
+    let of_string str =
+      (* FIXME: Allows invalid format (e.g., "2014-5-3") *)
+      Scanf.sscanf str "%4u-%2u-%2u"
+                   (fun year month day -> { year; month; day })
+
     let of_tm { Unix.tm_year; tm_mon; tm_mday; _ } =
       { year = tm_year + 1900; month = tm_mon + 1; day = tm_mday }
 
@@ -96,6 +101,11 @@ module Time =
         second : int;
       }
 
+    let of_string str =
+      (* FIXME: Allows invalid format (e.g., "1-2-3") *)
+      Scanf.sscanf str "%2u:%2u:%2u"
+                   (fun hour minute second -> { hour; minute; second })
+
     let of_tm { Unix.tm_hour; tm_min; tm_sec; _ } =
       { hour = tm_hour; minute = tm_min; second = tm_sec }
 
@@ -112,11 +122,24 @@ module Time_zone =
         minutes : int;          (* [0, 59] *)
       }
 
+    let utc = { hours = 0; minutes = 0 }
+
+    (* FIXME: Allows invalid format (e.g., "+2:1") *)
+    let of_string str =
+      if str = "Z" then
+        utc
+      else
+        Scanf.sscanf str "%[+-]%2u:%2u"
+                     (fun sign hours minutes ->
+                      { hours = if sign = "-" then
+                                  -hours
+                                else
+                                  hours;
+                        minutes })
+
     let to_string = function
       | { hours = 0; minutes = 0 } -> "Z"
       | { hours; minutes } -> Printf.sprintf "%+03d:%02d" hours minutes
-
-    let utc = { hours = 0; minutes = 0 }
   end
 
 module Timestamp =
@@ -142,9 +165,15 @@ module Timestamp =
     let now () =
       of_tm Time_zone.utc (Unix.gmtime (Unix.time ()))
 
-    let of_string _str =
-      (* TODO *)
-      epoch
+    let of_string str =
+      Scanf.sscanf str "%10[0-9-]T%8[0-9:]%[0-9-:Z]"
+                   (fun date_str time_str tz_str ->
+                    { date = Date.of_string date_str;
+                      time = Time.of_string time_str;
+                      time_zone = if tz_str = "" then
+                                    None
+                                  else
+                                    Some (Time_zone.of_string tz_str) })
   end
 
 module Sensor_state =
