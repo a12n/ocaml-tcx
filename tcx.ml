@@ -46,6 +46,10 @@ let nested_child_pcdata elem ptag tag =
     Some e -> child_pcdata e tag
   | None -> None
 
+let default b = function
+    Some a -> a
+  | None -> b
+
 let require = function
     Some a -> a
   | None -> failwith "required attribute/element missing"
