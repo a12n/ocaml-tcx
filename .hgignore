@@ -1,6 +1,9 @@
-.*\.cmi
-.*\.cmo
-.*\.cmx
-.*\.o
-tcx\.a
-tcx\.cmx?a
+syntax: glob
+
+*.cmi
+*.cmo
+*.cmx
+*.o
+tcx.a
+tcx.cma
+tcx.cmxa
