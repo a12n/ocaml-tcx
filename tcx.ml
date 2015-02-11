@@ -106,6 +106,10 @@ module Timestamp =
 
     let now () =
       of_tm Time_zone.utc (Unix.gmtime (Unix.time ()))
+
+    let of_string _str =
+      (* TODO *)
+      default
   end
 
 module Sensor_state =
