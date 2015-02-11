@@ -25,12 +25,41 @@ let to_elem to_string tag a =
 let to_nested_elem to_string ptag tag a =
   Xml.Element (ptag, [], [to_elem to_string tag a])
 
+let is_elem tag = function
+    Xml.Element (t, _, _) -> t = tag
+  | Xml.PCData _ -> false
+
+let attrib elem name =
+  try Some (Xml.attrib elem name) with Xml.No_attribute _ -> None
+
+let child_elem elem tag =
+  try Some (List.find (is_elem tag) (Xml.children elem)) with Not_found -> None
+
+let children elem tag =
+  List.filter (is_elem tag) (Xml.children elem)
+
+let child_pcdata elem tag =
+  child_elem elem tag |?> Xml.pcdata
+
+let nested_child_pcdata elem ptag tag =
+  match child_elem elem ptag with
+    Some e -> child_pcdata e tag
+  | None -> None
+
+let require = function
+    Some a -> a
+  | None -> failwith "required attribute/element missing"
+
 module Position =
   struct
     type t = {
         latitude : float;
         longitude : float;
       }
+
+    let of_elem elem =
+      { latitude = child_pcdata elem "LatitudeDegrees" |> require |> float_of_string;
+        longitude = child_pcdata elem "LongitudeDegrees" |> require |> float_of_string }
 
     let to_elem tag { latitude; longitude } =
       Xml.Element (tag, [],
@@ -187,6 +216,15 @@ module Track_point =
         sensor_state : Sensor_state.t option;
       }
 
+    let of_elem elem =
+      { time = child_pcdata elem "Time" |> require |> Timestamp.of_string;
+        position = child_elem elem "Position" |?> Position.of_elem;
+        altitude = child_pcdata elem "AltitudeMeters" |?> float_of_string;
+        distance = child_pcdata elem "DistanceMeters" |?> float_of_string;
+        heart_rate = nested_child_pcdata elem "HeartRateBpm" "Value" |?> int_of_string;
+        cadence = child_pcdata elem "Cadence" |?> int_of_string;
+        sensor_state = child_pcdata elem "SensorState" |?> Sensor_state.of_string; }
+
     let to_elem tag { time; position; altitude; distance;
                       heart_rate; cadence; sensor_state } =
       Xml.Element (tag, [],
@@ -216,6 +254,10 @@ module Track =
         points : Track_point.t List_ext.Non_empty.t;
       }
 
+    let of_elem elem =
+      { points = children elem "Trackpoint" |> List.map Track_point.of_elem |>
+                   List_ext.Non_empty.of_list }
+
     let to_elem tag { points } =
       Xml.Element (tag, [],
                    points |> List_ext.Non_empty.to_list |> List.map (Track_point.to_elem "Trackpoint"))
@@ -237,6 +279,20 @@ module Activity_lap =
         tracks : Track.t list;
         notes : string option;
       }
+
+    let of_elem elem =
+      { start_time = attrib elem "StartTime" |> require |> Timestamp.of_string;
+        total_time = child_pcdata elem "TotalTimeSeconds" |> require |> float_of_string;
+        distance = child_pcdata elem "DistanceMeters" |> require |> float_of_string;
+        maximum_speed = child_pcdata elem "MaximumSpeed" |?> float_of_string;
+        calories = child_pcdata elem "Calories" |> require |> int_of_string;
+        average_heart_rate = nested_child_pcdata elem "AverageHeartRateBpm" "Value" |?> int_of_string;
+        maximum_heart_rate = nested_child_pcdata elem "MaximumHeartRateBpm" "Value" |?> int_of_string;
+        intensity = child_pcdata elem "Intensity" |> require |> Intensity.of_string;
+        cadence = child_pcdata elem "Cadence" |?> int_of_string;
+        trigger_method = child_pcdata elem "TriggerMethod" |> require |> Trigger_method.of_string;
+        tracks = children elem "Track" |> List.map Track.of_elem;
+        notes = child_pcdata elem "Notes" }
 
     let to_elem tag { start_time; total_time; distance; maximum_speed;
                       calories; average_heart_rate; maximum_heart_rate;
@@ -281,6 +337,12 @@ module Activity =
         notes : string option;
       }
 
+    let of_elem elem =
+      { id = child_pcdata elem "Id" |> require |> Timestamp.of_string;
+        sport = attrib elem "Sport" |> require |> Sport.of_string;
+        laps = children elem "Lap" |> List.map Activity_lap.of_elem |> List_ext.Non_empty.of_list;
+        notes = child_pcdata elem "Notes" }
+
     let to_elem tag { id; sport; laps; notes } =
       Xml.Element (tag,
                    ["Sport", Sport.to_string sport],
@@ -302,9 +364,11 @@ type t = {
     activities : Activity.t list;
   }
 
-let of_xml _xml =
-  (* TODO *)
-  { activities = [] }
+let of_xml xml =
+  { activities =
+      match child_elem xml "Activities" with
+        Some e -> children e "Activity" |> List.map Activity.of_elem
+      | None -> [] }
 
 let to_xml { activities } =
   let xmlns = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" in
