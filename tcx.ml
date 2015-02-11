@@ -98,7 +98,7 @@ module Time =
     let to_string { hour; minute; second } =
       Printf.sprintf "%02d:%02d:%02d" hour minute second
 
-    let default = { hour = 0; minute = 0; second = 0 }
+    let midnight = { hour = 0; minute = 0; second = 0 }
   end
 
 module Time_zone =
@@ -131,7 +131,7 @@ module Timestamp =
         (Time_zone.to_string time_zone)
 
     let default =
-      { date = Date.epoch; time = Time.default; time_zone = Time_zone.utc }
+      { date = Date.epoch; time = Time.midnight; time_zone = Time_zone.utc }
 
     let now () =
       of_tm Time_zone.utc (Unix.gmtime (Unix.time ()))
