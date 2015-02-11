@@ -39,7 +39,7 @@ sig
   type t = {
       date : Date.t;
       time : Time.t;
-      time_zone : Time_zone.t;
+      time_zone : Time_zone.t option;
     }
 
   val epoch : t

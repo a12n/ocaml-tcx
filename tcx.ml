@@ -124,18 +124,20 @@ module Timestamp =
     type t = {
         date : Date.t;
         time : Time.t;
-        time_zone : Time_zone.t;
+        time_zone : Time_zone.t option;
       }
 
     let of_tm time_zone tm =
-      { date = Date.of_tm tm; time = Time.of_tm tm; time_zone }
+      { date = Date.of_tm tm; time = Time.of_tm tm;
+        time_zone = Some time_zone }
 
     let to_string { date; time; time_zone } =
       (Date.to_string date) ^ "T" ^ (Time.to_string time) ^
-        (Time_zone.to_string time_zone)
+        (default "" (time_zone |?> Time_zone.to_string))
 
     let epoch =
-      { date = Date.epoch; time = Time.midnight; time_zone = Time_zone.utc }
+      { date = Date.epoch; time = Time.midnight;
+        time_zone = Some Time_zone.utc }
 
     let now () =
       of_tm Time_zone.utc (Unix.gmtime (Unix.time ()))
