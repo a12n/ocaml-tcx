@@ -128,3 +128,7 @@ type t = {
 val of_string : string -> t
 
 val to_string : t -> string
+
+val parse_file : string -> t
+
+val write_file : t -> string -> unit

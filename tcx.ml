@@ -383,3 +383,11 @@ let of_string str = Xml.parse_string str |> of_xml
 let to_string tcx =
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" ^
     (to_xml tcx |> Xml.to_string_fmt)
+
+let parse_file path = Xml.parse_file path |> of_xml
+
+let write_file tcx path =
+  let str = to_string tcx in
+  let chan = open_out path in
+  output_string chan str;
+  close_out chan
