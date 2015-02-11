@@ -39,7 +39,7 @@ let children elem tag =
   List.filter (is_elem tag) (Xml.children elem)
 
 let child_pcdata elem tag =
-  child_elem elem tag |?> Xml.pcdata
+  child_elem elem tag |?> (fun e -> Xml.children e |> List.hd |> Xml.pcdata)
 
 let nested_child_pcdata elem ptag tag =
   match child_elem elem ptag with
