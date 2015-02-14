@@ -421,7 +421,7 @@ let to_string tcx =
 
 let parse_file path = Xml.parse_file path |> of_xml
 
-let write_file tcx path =
+let format_file tcx path =
   let str = to_string tcx in
   let chan = open_out path in
   output_string chan str;

@@ -1,4 +1,4 @@
-version = "0.5.0"
+version = "0.6.0"
 description = "OCaml library to parse and format TCX files."
 archive(byte) = "tcx.cma"
 archive(native) = "tcx.cmxa"

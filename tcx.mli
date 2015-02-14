@@ -131,4 +131,4 @@ val to_string : t -> string
 
 val parse_file : string -> t
 
-val write_file : t -> string -> unit
+val format_file : t -> string -> unit
