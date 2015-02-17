@@ -134,3 +134,15 @@ val to_string : t -> string
 val parse_file : string -> t
 
 val format_file : t -> string -> unit
+
+module Iter :
+sig
+  type t = [`Activity of Activity.t |
+            `Activity_lap of Activity_lap.t |
+            `Track of Track.t |
+            `Track_point of Track_point.t]
+end
+
+val fold : ('a -> Iter.t -> 'a) -> 'a -> t -> 'a
+
+val iter : (Iter.t -> unit) -> t -> unit

@@ -448,3 +448,30 @@ let format_file tcx path =
   let chan = open_out path in
   output_string chan str;
   close_out chan
+
+module Iter =
+  struct
+    type t = [`Activity of Activity.t |
+              `Activity_lap of Activity_lap.t |
+              `Track of Track.t |
+              `Track_point of Track_point.t]
+  end
+
+let iter f { activities } =
+  let track_point p =
+    f (`Track_point p) in
+  let track ({ Track.points } as t) =
+    f (`Track t);
+    List_ext.Non_empty.iter track_point points in
+  let activity_lap ({ Activity_lap.tracks; _ } as l) =
+    f (`Activity_lap l);
+    List.iter track tracks in
+  let activity ({ Activity.laps; _ } as a) =
+    f (`Activity a);
+    List_ext.Non_empty.iter activity_lap laps in
+  List.iter activity activities
+
+let fold f a tcx =
+  let ans = ref a in
+  iter (fun it -> ans := f !ans it) tcx;
+  !ans
