@@ -177,6 +177,38 @@ module Timestamp =
                                     None
                                   else
                                     Some (Time_zone.of_string tz_str) })
+
+    let of_unix_time t =
+      let { Unix.tm_year;
+            tm_mon;
+            tm_mday;
+            tm_hour;
+            tm_min;
+            tm_sec; _ } = Unix.gmtime t in
+      { date = { Date.year = tm_year + 1900;
+                 month = tm_mon + 1;
+                 day = tm_mday };
+        time = { Time.hour = tm_hour;
+                 minute = tm_min;
+                 second = tm_sec };
+        time_zone = Some Time_zone.utc }
+
+    let to_unix_time { date = { Date.year; month; day };
+                       time = { Time.hour; minute; second };
+                       time_zone } =
+      let t, _tm =
+        Unix.(mktime { tm_year = year - 1900;
+                       tm_mon = month - 1;
+                       tm_mday = day;
+                       tm_hour = hour;
+                       tm_min = minute;
+                       tm_sec = second;
+                       tm_wday = 0;
+                       tm_yday = 0;
+                       tm_isdst = false }) in
+      let off = Unix.(fst (mktime (localtime t)) -.
+                        fst (mktime (gmtime t))) in
+      t +. off -. (time_zone |?> Time_zone.to_seconds |> default 0.0)
   end
 
 module Sensor_state =
