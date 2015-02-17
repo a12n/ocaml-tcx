@@ -140,6 +140,9 @@ module Time_zone =
     let to_string = function
       | { hours = 0; minutes = 0 } -> "Z"
       | { hours; minutes } -> Printf.sprintf "%+03d:%02d" hours minutes
+
+    let to_seconds { hours; minutes } =
+      float_of_int (hours * 3600 + minutes * 60)
   end
 
 module Timestamp =
