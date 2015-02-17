@@ -44,8 +44,6 @@ sig
 
   val epoch : t
 
-  val now : unit -> t
-
   val of_unix_time : float -> t
 
   val to_unix_time : t -> float
