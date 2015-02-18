@@ -77,6 +77,16 @@ sig
          | Release
 end
 
+module Version :
+sig
+  type t = {
+      major : int;
+      minor : int;
+      build_major : int option;
+      build_minor : int option;
+    }
+end
+
 module Track_point :
 sig
   type t = {

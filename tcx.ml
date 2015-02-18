@@ -280,6 +280,31 @@ module Build_type =
       | Release -> "Release"
   end
 
+module Version =
+  struct
+    type t = {
+        major : int;
+        minor : int;
+        build_major : int option;
+        build_minor : int option;
+      }
+
+    let of_elem elem =
+      { major = child_pcdata elem "VersionMajor" |> require |> int_of_string;
+        minor = child_pcdata elem "VersionMinor" |> require |> int_of_string;
+        build_major = child_pcdata elem "BuildMajor" |?> int_of_string;
+        build_minor = child_pcdata elem "BuildMinor" |?> int_of_string }
+
+    let to_elem tag { major; minor; build_major; build_minor } =
+      Xml.Element (tag, [],
+                   (major |> to_elem string_of_int "VersionMajor")
+                   @> (minor |> to_elem string_of_int "VersionMinor")
+                   @> (build_major |?> to_elem string_of_int "BuildMajor")
+                   @?> (build_minor |?> to_elem string_of_int "BuildMinor")
+                   @?> []
+                  )
+  end
+
 module Track_point =
   struct
     type t = {
