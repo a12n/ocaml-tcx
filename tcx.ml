@@ -409,7 +409,7 @@ module Source =
       match attrib elem "xsi:type" with
         Some "Device_t" -> Device (Device.of_elem elem)
       | Some "Application_t" -> Application (Application.of_elem elem)
-      | _ -> raise (Invalid_argument "Tcx.Device.of_elem")
+      | _ -> raise (Invalid_argument "Tcx.Source.of_elem")
 
     let to_elem tag = function
         Device d -> Device.to_elem tag d
