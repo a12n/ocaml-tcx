@@ -331,6 +331,31 @@ module Device =
                   )
   end
 
+module Build =
+  struct
+    type t = {
+        version : Version.t;
+        build_type : Build_type.t option;
+        time : string option;
+        builder : string option;
+      }
+
+    let of_elem elem =
+      { version = child_elem elem "Version" |> require |> Version.of_elem;
+        build_type = child_pcdata elem "Type" |?> Build_type.of_string;
+        time = child_pcdata elem "Time";
+        builder = child_pcdata elem "Builder" }
+
+    let to_elem tag { version; build_type; time; builder } =
+      Xml.Element (tag, [],
+                   (version |> Version.to_elem "Version")
+                   @> (build_type |?> to_elem Build_type.to_string "Type")
+                   @?> (time |?> to_elem identity "Time")
+                   @?> (builder |?> to_elem identity "Builder")
+                   @?> []
+                  )
+  end
+
 module Track_point =
   struct
     type t = {

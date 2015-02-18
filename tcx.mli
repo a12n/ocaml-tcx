@@ -97,6 +97,16 @@ sig
     }
 end
 
+module Build :
+sig
+  type t = {
+      version : Version.t;
+      build_type : Build_type.t option;
+      time : string option;
+      builder : string option;
+    }
+end
+
 module Track_point :
 sig
   type t = {
