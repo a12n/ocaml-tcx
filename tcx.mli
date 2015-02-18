@@ -117,6 +117,16 @@ sig
   type t = string * string * string
 end
 
+module Application :
+sig
+  type t = {
+      name : string;
+      build : Build.t;
+      lang_id : Lang_id.t;
+      part_number : Part_number.t;
+    }
+end
+
 module Track_point :
 sig
   type t = {

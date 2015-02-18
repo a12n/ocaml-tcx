@@ -374,6 +374,32 @@ module Part_number =
       s1 ^ "-" ^ s2 ^ "-" ^ s3
   end
 
+module Application =
+  struct
+    type t = {
+        name : string;
+        build : Build.t;
+        lang_id : Lang_id.t;
+        part_number : Part_number.t;
+      }
+
+    let of_elem elem =
+      { name = child_pcdata elem "Name" |> require;
+        build = child_elem elem "Build" |> require |> Build.of_elem;
+        lang_id = child_pcdata elem "LangID" |> require;
+        part_number = child_pcdata elem "PartNumber" |> require |> Part_number.of_string }
+
+    let to_elem tag { name; build; lang_id; part_number } =
+      Xml.Element (tag,
+                   ["xsi:type", "Application_t"],
+                   (name |> to_elem identity "Name")
+                   @> (build |> Build.to_elem "Build")
+                   @> (lang_id |> to_elem identity "LangID")
+                   @> (part_number |> to_elem Part_number.to_string "PartNumber")
+                   @> []
+                  )
+  end
+
 module Track_point =
   struct
     type t = {
