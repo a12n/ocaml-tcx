@@ -362,6 +362,18 @@ module Lang_id =
     type t = string
   end
 
+module Part_number =
+  struct
+    type t = string * string * string
+
+    let of_string str =
+      Scanf.sscanf str "%3[0-9A-Z]-%5[0-9A-Z]-%2[0-9A-Z]"
+                   (fun s1 s2 s3 -> s1, s2, s3)
+
+    let to_string (s1, s2, s3) =
+      s1 ^ "-" ^ s2 ^ "-" ^ s3
+  end
+
 module Track_point =
   struct
     type t = {

@@ -112,6 +112,11 @@ sig
   type t = string
 end
 
+module Part_number :
+sig
+  type t = string * string * string
+end
+
 module Track_point :
 sig
   type t = {
