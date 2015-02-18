@@ -91,7 +91,7 @@ module Device :
 sig
   type t = {
       name : string;
-      unit_id : int;
+      unit_id : int64;
       product_id : int;
       version : Version.t;
     }

@@ -311,14 +311,14 @@ module Device =
   struct
     type t = {
         name : string;
-        unit_id : int;
+        unit_id : int64;
         product_id : int;
         version : Version.t;
       }
 
     let of_elem elem =
       { name = child_pcdata elem "Name" |> require;
-        unit_id = child_pcdata elem "UnitId" |> require |> int_of_string;
+        unit_id = child_pcdata elem "UnitId" |> require |> Int64.of_string;
         product_id = child_pcdata elem "ProductID" |> require |> int_of_string;
         version = child_elem elem "Version" |> require |> Version.of_elem }
 
@@ -326,7 +326,7 @@ module Device =
       Xml.Element (tag,
                    ["xsi:type", "Device_t"],
                    (name |> to_elem identity "Name")
-                   @> (unit_id |> to_elem string_of_int "UnitId")
+                   @> (unit_id |> to_elem Int64.to_string "UnitId")
                    @> (product_id |> to_elem string_of_int "ProductID")
                    @> (version |> Version.to_elem "Version")
                    @> []
