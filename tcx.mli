@@ -87,6 +87,16 @@ sig
     }
 end
 
+module Device :
+sig
+  type t = {
+      name : string;
+      unit_id : int;
+      product_id : int;
+      version : Version.t;
+    }
+end
+
 module Track_point :
 sig
   type t = {

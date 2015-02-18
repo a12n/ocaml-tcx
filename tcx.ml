@@ -305,6 +305,32 @@ module Version =
                   )
   end
 
+module Device =
+  struct
+    type t = {
+        name : string;
+        unit_id : int;
+        product_id : int;
+        version : Version.t;
+      }
+
+    let of_elem elem =
+      { name = child_pcdata elem "Name" |> require;
+        unit_id = child_pcdata elem "UnitId" |> require |> int_of_string;
+        product_id = child_pcdata elem "ProductID" |> require |> int_of_string;
+        version = child_elem elem "Version" |> require |> Version.of_elem }
+
+    let to_elem tag { name; unit_id; product_id; version } =
+      Xml.Element (tag,
+                   ["xsi:type", "Device_t"],
+                   (name |> to_elem identity "Name")
+                   @> (unit_id |> to_elem string_of_int "UnitId")
+                   @> (product_id |> to_elem string_of_int "ProductID")
+                   @> (version |> Version.to_elem "Version")
+                   @> []
+                  )
+  end
+
 module Track_point =
   struct
     type t = {
