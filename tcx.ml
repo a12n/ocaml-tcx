@@ -259,6 +259,27 @@ module Sport =
       | Other -> "Other"
   end
 
+module Build_type =
+  struct
+    type t = Internal
+           | Alpha
+           | Beta
+           | Release
+
+    let of_string = function
+        "Internal" -> Internal
+      | "Alpha" -> Alpha
+      | "Beta" -> Beta
+      | "Release" -> Release
+      | _ -> raise (Invalid_argument "Tcx.Build_type.of_string")
+
+    let to_string = function
+        Internal -> "Internal"
+      | Alpha -> "Alpha"
+      | Beta -> "Beta"
+      | Release -> "Release"
+  end
+
 module Track_point =
   struct
     type t = {
