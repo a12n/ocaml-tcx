@@ -578,22 +578,26 @@ module Activity =
 type t = {
     (* TODO: Folders, workouts, etc. *)
     activities : Activity.t list;
+    author : Source.t option;
   }
 
 let of_xml xml =
-  { activities =
+  { author = child_elem xml "Author" |?> Source.of_elem;
+    activities =
       match child_elem xml "Activities" with
         Some e -> children e "Activity" |> List.map Activity.of_elem
       | None -> [] }
 
-let to_xml { activities } =
+let to_xml { activities; author } =
   let xmlns = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" in
   let xmlns_xsi = "http://www.w3.org/2001/XMLSchema-instance" in
   Xml.Element ("TrainingCenterDatabase",
                ["xmlns", xmlns; "xmlns:xsi", xmlns_xsi],
                [Xml.Element ("Activities",
                              [],
-                             activities |> List.map (Activity.to_elem "Activity"))])
+                             activities |> List.map (Activity.to_elem "Activity"))]
+               @@> (author |?> Source.to_elem "Author") @?> []
+              )
 
 let of_string str = Xml.parse_string str |> of_xml
 
@@ -618,7 +622,7 @@ module Iter =
               `Track_point of Track_point.t]
   end
 
-let iter f { activities } =
+let iter f { activities; _ } =
   let track_point p =
     f (`Track_point p) in
   let track ({ Track.points } as t) =

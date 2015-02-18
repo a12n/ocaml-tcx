@@ -190,6 +190,7 @@ end
 
 type t = {
     activities : Activity.t list;
+    author : Source.t option;
   }
 
 val of_string : string -> t
