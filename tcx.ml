@@ -547,20 +547,23 @@ module Activity =
         sport : Sport.t;
         laps : Activity_lap.t List_ext.Non_empty.t;
         notes : string option;
+        creator : Source.t option;
       }
 
     let of_elem elem =
       { id = child_pcdata elem "Id" |> require |> Timestamp.of_string;
         sport = attrib elem "Sport" |> require |> Sport.of_string;
         laps = children elem "Lap" |> List.map Activity_lap.of_elem |> List_ext.Non_empty.of_list;
-        notes = child_pcdata elem "Notes" }
+        notes = child_pcdata elem "Notes";
+        creator = child_elem elem "Creator" |?> Source.of_elem }
 
-    let to_elem tag { id; sport; laps; notes } =
+    let to_elem tag { id; sport; laps; notes; creator } =
       Xml.Element (tag,
                    ["Sport", Sport.to_string sport],
                    (id |> to_elem Timestamp.to_string "Id")
                    @> (laps |> List_ext.Non_empty.to_list |> List.map (Activity_lap.to_elem "Lap"))
                    @@> (notes |?> to_elem identity "Notes")
+                   @?> (creator |?> Source.to_elem "Creator")
                    @?> []
                   )
 
@@ -568,7 +571,8 @@ module Activity =
       { id = Timestamp.epoch;
         sport = Sport.Other;
         laps = Activity_lap.sample, [];
-        notes = None }
+        notes = None;
+        creator = None }
   end
 
 type t = {

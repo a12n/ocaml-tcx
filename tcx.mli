@@ -182,6 +182,7 @@ sig
       sport : Sport.t;
       laps : Activity_lap.t List_ext.Non_empty.t;
       notes : string option;
+      creator : Source.t option;
     }
 
   val sample : t
