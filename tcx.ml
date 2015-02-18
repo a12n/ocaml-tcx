@@ -400,6 +400,22 @@ module Application =
                   )
   end
 
+module Source =
+  struct
+    type t = Device of Device.t
+           | Application of Application.t
+
+    let of_elem elem =
+      match attrib elem "xsi:type" with
+        Some "Device_t" -> Device (Device.of_elem elem)
+      | Some "Application_t" -> Application (Application.of_elem elem)
+      | _ -> raise (Invalid_argument "Tcx.Device.of_elem")
+
+    let to_elem tag = function
+        Device d -> Device.to_elem tag d
+      | Application a -> Application.to_elem tag a
+  end
+
 module Track_point =
   struct
     type t = {

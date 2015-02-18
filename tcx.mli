@@ -127,6 +127,12 @@ sig
     }
 end
 
+module Source :
+sig
+  type t = Device of Device.t
+         | Application of Application.t
+end
+
 module Track_point :
 sig
   type t = {
