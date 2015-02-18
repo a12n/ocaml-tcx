@@ -14,8 +14,6 @@ let (|?>) opt f =
 
 let identity a = a
 
-let string_of_float = Printf.sprintf "%g"
-
 let to_pcdata to_string a =
   Xml.PCData (to_string a)
 
