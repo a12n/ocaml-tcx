@@ -107,6 +107,11 @@ sig
     }
 end
 
+module Lang_id :
+sig
+  type t = string
+end
+
 module Track_point :
 sig
   type t = {

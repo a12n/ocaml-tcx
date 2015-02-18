@@ -356,6 +356,12 @@ module Build =
                   )
   end
 
+module Lang_id =
+  struct
+    (* TODO: Enum type? of_string, to_string? *)
+    type t = string
+  end
+
 module Track_point =
   struct
     type t = {
