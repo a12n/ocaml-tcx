@@ -473,8 +473,9 @@ let of_xml xml =
 
 let to_xml { activities } =
   let xmlns = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" in
+  let xmlns_xsi = "http://www.w3.org/2001/XMLSchema-instance" in
   Xml.Element ("TrainingCenterDatabase",
-               ["xmlns", xmlns],
+               ["xmlns", xmlns; "xmlns:xsi", xmlns_xsi],
                [Xml.Element ("Activities",
                              [],
                              activities |> List.map (Activity.to_elem "Activity"))])
