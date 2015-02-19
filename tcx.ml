@@ -205,7 +205,7 @@ module Sensor_state =
     let of_string = function
         "Present" -> Present
       | "Absent" -> Absent
-      | _ -> raise (Invalid_argument "Tcx.Sensor_state.of_string")
+      | _ -> failwith "Tcx.Sensor_state.of_string"
 
     let to_string = function
         Present -> "Present"
@@ -219,7 +219,7 @@ module Intensity =
     let of_string = function
         "Active" -> Active
       | "Resting" -> Resting
-      | _ -> raise (Invalid_argument "Tcx.Intensity.of_string")
+      | _ -> failwith "Tcx.Intensity.of_string"
 
     let to_string = function
         Active -> "Active"
@@ -236,7 +236,7 @@ module Trigger_method =
       | "Location" -> Location
       | "Time" -> Time
       | "HeartRate" -> Heart_rate
-      | _ -> raise (Invalid_argument "Tcx.Trigger_method.of_string")
+      | _ -> failwith "Tcx.Trigger_method.of_string"
 
     let to_string = function
         Manual -> "Manual"
@@ -273,7 +273,7 @@ module Build_type =
       | "Alpha" -> Alpha
       | "Beta" -> Beta
       | "Release" -> Release
-      | _ -> raise (Invalid_argument "Tcx.Build_type.of_string")
+      | _ -> failwith "Tcx.Build_type.of_string"
 
     let to_string = function
         Internal -> "Internal"
@@ -413,7 +413,7 @@ module Source =
       | Some "Application_t" -> Application (Application.of_elem elem)
       | _ -> try Application (Application.of_elem elem)
              with _ -> try Device (Device.of_elem elem)
-                       with _ -> raise (Invalid_argument "Tcx.Source.of_elem")
+                       with _ -> failwith "Tcx.Source.of_elem"
 
     let to_elem tag = function
         Device d -> Device.to_elem tag d
