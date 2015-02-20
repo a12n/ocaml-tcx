@@ -458,7 +458,7 @@ module Track_point =
                    @?> []
                   )
 
-    let sample =
+    let empty =
       { time = Timestamp.epoch;
         position = None;
         altitude = None;
@@ -533,7 +533,7 @@ module Activity_lap =
                    @?> []
                   )
 
-    let sample =
+    let empty =
       { start_time = Timestamp.epoch;
         total_time = 0.0;
         distance = 0.0;
@@ -575,10 +575,10 @@ module Activity =
                    @?> []
                   )
 
-    let sample =
+    let empty =
       { id = Timestamp.epoch;
         sport = Sport.Other;
-        laps = Activity_lap.sample, [];
+        laps = Activity_lap.empty, [];
         notes = None;
         creator = None }
   end
