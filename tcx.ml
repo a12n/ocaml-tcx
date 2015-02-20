@@ -118,6 +118,15 @@ module Time_zone =
 
     let utc = { hours = 0; minutes = 0 }
 
+    let system () =
+      let n =
+        int_of_float (
+            fst (Unix.mktime (Unix.localtime 0.0)) -.
+              fst (Unix.mktime (Unix.gmtime 0.0))
+          ) in
+      { hours = n / 3600;
+        minutes = abs (n mod 3600) / 60 }
+
     (* FIXME: Allows invalid format (e.g., "+2:1") *)
     let of_string str =
       if str = "Z" then
@@ -193,9 +202,8 @@ module Timestamp =
                        tm_wday = 0;
                        tm_yday = 0;
                        tm_isdst = false }) in
-      let off = Unix.(fst (mktime (localtime t)) -.
-                        fst (mktime (gmtime t))) in
-      t +. off -. (time_zone |?> Time_zone.to_seconds |> default 0.0)
+      t +. Time_zone.(system () |> to_seconds) -.
+        (time_zone |?> Time_zone.to_seconds |> default 0.0)
   end
 
 module Sensor_state =
