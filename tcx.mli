@@ -42,8 +42,6 @@ sig
       time_zone : Time_zone.t option;
     }
 
-  val epoch : t
-
   val of_unix_time : float -> t
 
   val to_unix_time : t -> float
