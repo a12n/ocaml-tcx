@@ -1,3 +1,8 @@
+(*
+ * Author: Anton Yabchinskiy
+ * License: MIT (see LICENSE file for details)
+ *)
+
 include List
 
 module Non_empty =

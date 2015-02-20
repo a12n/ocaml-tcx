@@ -1,3 +1,8 @@
+(*
+ * Author: Anton Yabchinskiy
+ * License: MIT (see LICENSE file for details)
+ *)
+
 (** [a @@> b] concatenetes lists [a] and [b]. *)
 let (@@>) = (@)
 
