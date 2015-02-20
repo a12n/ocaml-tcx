@@ -69,10 +69,7 @@ end
 
 module Build_type :
 sig
-  type t = Internal
-         | Alpha
-         | Beta
-         | Release
+  type t = Internal | Alpha | Beta | Release
 end
 
 module Version :
@@ -127,8 +124,7 @@ end
 
 module Source :
 sig
-  type t = Device of Device.t
-         | Application of Application.t
+  type t = Device of Device.t | Application of Application.t
 end
 
 module Track_point :

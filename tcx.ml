@@ -271,10 +271,7 @@ module Sport =
 
 module Build_type =
   struct
-    type t = Internal
-           | Alpha
-           | Beta
-           | Release
+    type t = Internal | Alpha | Beta | Release
 
     let of_string = function
         "Internal" -> Internal
@@ -412,8 +409,7 @@ module Application =
 
 module Source =
   struct
-    type t = Device of Device.t
-           | Application of Application.t
+    type t = Device of Device.t | Application of Application.t
 
     let of_elem elem =
       match attrib elem "xsi:type" with
