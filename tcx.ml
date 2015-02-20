@@ -202,6 +202,8 @@ module Timestamp =
                        tm_wday = 0;
                        tm_yday = 0;
                        tm_isdst = false }) in
+      (* Compensate for local time zone offset, introduced by
+       * mktime. Then apply offset from the timestamp. *)
       t +. Time_zone.(system () |> to_seconds) -.
         (time_zone |?> Time_zone.to_seconds |> default 0.0)
   end
