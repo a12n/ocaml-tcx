@@ -170,7 +170,7 @@ module Timestamp =
         time_zone = Some Time_zone.utc }
 
     let of_string str =
-      Scanf.sscanf str "%10[0-9-]T%8[0-9:]%[0-9-:Z]"
+      Scanf.sscanf str "%10[0-9-]T%8[0-9:]%[0-9:Z+-]"
                    (fun date_str time_str tz_str ->
                     { date = Date.of_string date_str;
                       time = Time.of_string time_str;
