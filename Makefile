@@ -1,5 +1,5 @@
 OCAMLFIND ?= ocamlfind
-OCAMLC_FLAGS = -package xml-light -w +A
+OCAMLC_FLAGS = -package unix -package xml-light -w +A
 OCAMLC = ${OCAMLFIND} ocamlc ${OCAMLC_FLAGS}
 OCAMLOPT = ${OCAMLFIND} ocamlopt ${OCAMLC_FLAGS}
 INSTALL_FILES = META list_ext.cmi list_ext.mli tcx.cmi tcx.mli \
