@@ -655,3 +655,25 @@ let fold f a tcx =
   let ans = ref a in
   iter (fun it -> ans := f !ans it) tcx;
   !ans
+
+let map f tcx =
+  let track_point p =
+    match f (`Track_point p) with
+      `Track_point p' -> p'
+    | _ -> failwith "Tcx.map" in
+  let track t =
+    match f (`Track t) with
+      `Track t' -> { Track.points =
+                       List_ext.Non_empty.map track_point t'.Track.points }
+    | _ -> failwith "Tcx.map" in
+  let activity_lap l =
+    match f (`Activity_lap l) with
+      `Activity_lap l' -> { l' with Activity_lap.tracks =
+                                      List.map track l'.Activity_lap.tracks }
+    | _ -> failwith "Tcx.map" in
+  let activity a =
+    match f (`Activity a) with
+      `Activity a' -> { a' with Activity.laps =
+                                  List_ext.Non_empty.map activity_lap a'.Activity.laps }
+    | _ -> failwith "Tcx.map" in
+  { tcx with activities = List.map activity tcx.activities }

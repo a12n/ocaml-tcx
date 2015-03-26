@@ -211,3 +211,7 @@ end
 val fold : ('a -> Iter.t -> 'a) -> 'a -> t -> 'a
 
 val iter : (Iter.t -> unit) -> t -> unit
+
+(** Function [f] must return the same [Iter] tag, or [Failure] will be
+ * raised. *)
+val map : (Iter.t -> Iter.t) -> t -> t

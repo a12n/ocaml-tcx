@@ -1,4 +1,4 @@
-version = "0.24.2"
+version = "0.25.0"
 description = "OCaml library to parse and format TCX files."
 requires = "unix xml-light"
 archive(byte) = "tcx.cma"
